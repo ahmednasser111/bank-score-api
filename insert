@@ -1,0 +1,51 @@
+USE user_db;
+
+INSERT INTO users (name, email, phone, registration_date) VALUES
+('Diana Moore', 'dianaa@example.com', '456-789-0123', '2024-04-01'),
+('Edward Thomas', 'edaward@example.com', '567-890-1234', '2024-04-15'),
+('Fiona Clark', 'fionaa@example.com', '678-901-2345', '2024-04-20'),
+('George Lewis', 'geoarge@example.com', '789-012-3456', '2024-04-25'),
+('Hannah Baker', 'hananah@example.com', '890-123-4567', '2024-05-01'),
+('Diana Moore', 'diana@example.com', '456-789-0123', '2024-04-01'),
+('Edward Thomas', 'edward@example.com', '567-890-1234', '2024-04-15'),
+('Fiona Clark', 'fiona@example.com', '678-901-2345', '2024-04-20'),
+('George Lewis', 'george@example.com', '789-012-3456', '2024-04-25'),
+('Hannah Baker', 'hannah@example.com', '890-123-4567', '2024-05-01');
+
+USE payments_db;
+
+INSERT INTO payments (user_id, payment_date, payment_status) VALUES
+(4, '2024-05-02', 'completed'),
+(5, '2024-05-03', 'pending'),
+(6, '2024-05-04', 'completed'),
+(7, '2024-05-05', 'failed'),
+(8, '2024-05-06', 'completed');
+
+USE debt_db;
+
+INSERT INTO debts (user_id, used_credit, credit_limit) VALUES
+(4, 300.00, 1200.00),
+(5, 100.00, 700.00),
+(6, 900.00, 900.00),
+(7, 150.00, 500.00),
+(8, 250.00, 1000.00);
+
+
+USE history_db;
+
+INSERT INTO histories (user_id, account_open_date) VALUES
+(4, '2024-01-01'),
+(5, '2024-01-15'),
+(6, '2024-02-01'),
+(7, '2024-03-01'),
+(8, '2024-03-15');
+
+USE mix_reference_db;
+
+INSERT INTO credit_references (user_id, credit_type) VALUES
+(4, 'student_loan'),
+(5, 'mortgage'),
+(6, 'credit_card'),
+(7, 'business_loan'),
+(8, 'personal_loan');
+

@@ -1,0 +1,139 @@
+DROP DATABASE IF EXISTS payments_db;
+DROP DATABASE IF EXISTS debt_db;
+DROP DATABASE IF EXISTS history_db;
+DROP DATABASE IF EXISTS mix_reference_db;
+DROP DATABASE IF EXISTS user_db;
+
+-- Create user_db
+CREATE DATABASE IF NOT EXISTS user_db;
+USE user_db;
+
+CREATE TABLE IF NOT EXISTS users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    registration_date DATE
+);
+
+-- Create payments_db
+CREATE DATABASE IF NOT EXISTS payments_db;
+USE payments_db;
+
+CREATE TABLE IF NOT EXISTS payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    payment_date DATE,
+    payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+    FOREIGN KEY (user_id) REFERENCES user_db.users(user_id)
+);
+
+-- Create debt_db
+CREATE DATABASE IF NOT EXISTS debt_db;
+USE debt_db;
+
+CREATE TABLE IF NOT EXISTS debts (
+    record_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    used_credit DECIMAL(10,2) DEFAULT 0.00,
+    credit_limit DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY (user_id) REFERENCES user_db.users(user_id)
+);
+
+-- Create history_db
+CREATE DATABASE IF NOT EXISTS history_db;
+USE history_db;
+
+CREATE TABLE IF NOT EXISTS histories (
+    history_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    account_open_date DATE,
+    FOREIGN KEY (user_id) REFERENCES user_db.users(user_id)
+);
+
+-- Create mix_reference_db
+CREATE DATABASE IF NOT EXISTS mix_reference_db;
+USE mix_reference_db;
+
+CREATE TABLE IF NOT EXISTS credit_references (
+    type_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    credit_type ENUM("student_loan", "mortgage", "credit_card", "business_loan", "personal_loan") DEFAULT 'credit_card',
+    FOREIGN KEY (user_id) REFERENCES user_db.users(user_id)
+);
+
+
+
+
+USE user_db;
+
+INSERT INTO users (name, email, phone, registration_date) VALUES
+('Diana Moore', 'dianaa@example.com', '456-789-0123', '2024-04-01'),
+('Edward Thomas', 'edaward@example.com', '567-890-1234', '2024-04-15'),
+('Fiona Clark', 'fionaa@example.com', '678-901-2345', '2024-04-20'),
+('George Lewis', 'geoarge@example.com', '789-012-3456', '2024-04-25'),
+('Hannah Baker', 'hananah@example.com', '890-123-4567', '2024-05-01'),
+('Diana Moore', 'diana@example.com', '456-789-0123', '2024-04-01'),
+('Edward Thomas', 'edward@example.com', '567-890-1234', '2024-04-15'),
+('Fiona Clark', 'fiona@example.com', '678-901-2345', '2024-04-20'),
+('George Lewis', 'george@example.com', '789-012-3456', '2024-04-25'),
+('Hannah Baker', 'hannah@example.com', '890-123-4567', '2024-05-01'),
+('Hannah Baker', 'hdannah@example.com', '890-123-4567', '2024-05-01');
+
+USE payments_db;
+
+INSERT INTO payments (user_id, payment_date, payment_status) VALUES
+(1, '2024-05-02', 'completed'),
+(1, '2026-10-02', 'pending'),
+(2, '2024-05-03', 'pending'),
+(3, '2024-05-04', 'completed'),
+(9, '2024-05-05', 'failed'),
+(10, '2024-05-06', 'completed'),
+(4, '2024-05-02', 'completed'),
+(5, '2024-05-03', 'pending'),
+(6, '2024-05-04', 'completed'),
+(7, '2024-05-05', 'failed'),
+(8, '2024-05-06', 'completed');
+
+USE debt_db;
+
+INSERT INTO debts (user_id, used_credit, credit_limit) VALUES
+(1, 300.00, 1200.00),
+(2, 100.00, 700.00),
+(3, 900.00, 900.00),
+(9, 150.00, 500.00),
+(10, 250.00, 1000.00),
+(4, 300.00, 1200.00),
+(5, 100.00, 700.00),
+(6, 900.00, 900.00),
+(7, 150.00, 500.00),
+(8, 250.00, 1000.00);
+
+
+USE history_db;
+
+INSERT INTO histories (user_id, account_open_date) VALUES
+(1, '2024-01-01'),
+(2, '2024-01-15'),
+(3, '2024-02-01'),
+(9, '2024-03-01'),
+(10, '2024-03-15'),
+(4, '2024-01-01'),
+(5, '2024-01-15'),
+(6, '2024-02-01'),
+(7, '2024-03-01'),
+(8, '2024-03-15');
+
+USE mix_reference_db;
+
+INSERT INTO credit_references (user_id, credit_type) VALUES
+(1, 'student_loan'),
+(2, 'mortgage'),
+(3, 'credit_card'),
+(9, 'business_loan'),
+(10, 'personal_loan'),
+(4, 'student_loan'),
+(5, 'mortgage'),
+(6, 'credit_card'),
+(7, 'business_loan'),
+(8, 'personal_loan');
